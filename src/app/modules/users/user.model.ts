@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 import { TUser } from './user.interface';
 import config from '../../config';
 
@@ -33,7 +33,7 @@ export type NewUser = {
   password: string;
   role: string;
 };
-
+/* 
 userSchema.pre('save', async function (next) {
   const user = this;
   user.password = await bcrypt.hash(
@@ -46,6 +46,6 @@ userSchema.pre('save', async function (next) {
 userSchema.post('save', async function (doc, next) {
   doc.password = '';
   next();
-});
+}); */
 
 export const User = model<TUser>('user', userSchema);

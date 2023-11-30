@@ -14,3 +14,5 @@ const handleError = (
     error: err,
   });
 };
+
+export default handleError;
