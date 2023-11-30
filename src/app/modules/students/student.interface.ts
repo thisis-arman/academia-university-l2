@@ -1,6 +1,6 @@
 // import { Schema, model, connect } from 'mongoose';
 
-import { Types } from 'mongoose'
+import { Model, Types } from 'mongoose'
 
 export type Guardian = {
   fatherName: string
@@ -23,8 +23,8 @@ export type LocalGuardian = {
 export type TStudent = {
   id: number
   name: UserName
-  password: string
   user: Types.ObjectId
+  password: string
   age: number
   bloodGroup?: 'A+' | 'A-' | 'B+' | 'B-' | 'O+' | 'O-' | 'AB+' | 'AB-'
   contactNo: string
@@ -36,6 +36,8 @@ export type TStudent = {
   permanentAddress: string
   guardian: Guardian
   localGuardian: LocalGuardian
-  isActive: 'Active' | 'inActive'
   imageURL: string
+}
+export interface StudentModel extends Model<TStudent> {
+  isUserExists(id: string): Promise<TStudent | null>
 }

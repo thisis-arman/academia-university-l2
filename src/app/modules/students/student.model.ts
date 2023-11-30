@@ -38,7 +38,9 @@ const studentSchema = new Schema<TStudent>({
   },
   user: {
     type: Schema.Types.ObjectId,
-    required: [true],
+    required: [true, 'User is required'],
+    unique: true,
+    ref: 'User',
   },
   age: {
     type: Number,
@@ -67,13 +69,6 @@ const studentSchema = new Schema<TStudent>({
     occupation: {
       type: 'String',
       required: true,
-    },
-  },
-  isActive: {
-    type: 'String',
-    enum: {
-      values: ['Active', 'inActive'],
-      message: '{VALUE} is not valid',
     },
   },
   imageURL: {
