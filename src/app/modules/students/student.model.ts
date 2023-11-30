@@ -1,34 +1,34 @@
-import { Schema, model } from "mongoose";
-import { Guardian, Student, UserName } from "./student.interface";
+import { Schema, model } from 'mongoose'
+import { Guardian, TStudent, UserName } from './student.interface'
 // import validator from 'validator';
 
 const userNameSchema = new Schema<UserName>({
   firstName: {
-    type: "String",
+    type: 'String',
     required: true,
   },
   middleName: {
-    type: "String",
+    type: 'String',
     required: true,
   },
   lastName: {
-    type: "String",
+    type: 'String',
     required: true,
   },
-});
+})
 
 const guardianSchema = new Schema<Guardian>({
-  fatherName: { type: "String", required: true },
-  fatherOccupation: { type: "String" },
-  fatherContactNo: { type: "String" },
-  motherName: { type: "String" },
-  motherOccupation: { type: "String" },
-  motherContactNo: { type: "String" },
-});
+  fatherName: { type: 'String', required: true },
+  fatherOccupation: { type: 'String' },
+  fatherContactNo: { type: 'String' },
+  motherName: { type: 'String' },
+  motherOccupation: { type: 'String' },
+  motherContactNo: { type: 'String' },
+})
 
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent>({
   id: {
-    type: "Number",
+    type: 'Number',
     required: true,
     unique: true,
   },
@@ -36,46 +36,50 @@ const studentSchema = new Schema<Student>({
     type: userNameSchema,
     required: true,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    required: [true],
+  },
   age: {
     type: Number,
     required: true,
   },
   bloodGroup: {
-    type: "String",
-    enum: ["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"],
+    type: 'String',
+    enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
   },
-  contactNo: { type: "String", required: true },
-  emergencyContactNo: { type: "String", required: true },
-  email: { type: "String", required: true, unique: true },
-  dateOfBirth: { type: "String", required: true },
-  presentAddress: { type: "String", required: true },
-  permanentAddress: { type: "String", required: false },
+  contactNo: { type: 'String', required: true },
+  emergencyContactNo: { type: 'String', required: true },
+  email: { type: 'String', required: true, unique: true },
+  dateOfBirth: { type: 'String', required: true },
+  presentAddress: { type: 'String', required: true },
+  permanentAddress: { type: 'String', required: false },
   guardian: guardianSchema,
   gender: {
-    type: "String",
-    enum: ["male", "female", "other"],
+    type: 'String',
+    enum: ['male', 'female', 'other'],
   },
   localGuardian: {
     name: {
-      type: "String",
+      type: 'String',
       required: true,
     },
     occupation: {
-      type: "String",
+      type: 'String',
       required: true,
     },
   },
   isActive: {
-    type: "String",
+    type: 'String',
     enum: {
-      values: ["Active", "inActive"],
-      message: "{VALUE} is not valid",
+      values: ['Active', 'inActive'],
+      message: '{VALUE} is not valid',
     },
   },
   imageURL: {
-    type: "String",
+    type: 'String',
     required: false,
   },
-});
+})
 
-export const StudentModel = model<Student>("Student", studentSchema);
+export const StudentModel = model<TStudent>('Student', studentSchema)
