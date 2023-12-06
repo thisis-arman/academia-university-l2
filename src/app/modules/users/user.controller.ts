@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import userValidationSchema from './user.validation';
 import { UserServices } from './user.service';
+import sendResponse from '../../utils/sendResponse';
 
 const createStudent = async (
   req: Request,
@@ -18,7 +19,8 @@ const createStudent = async (
     );
 
     console.log(result);
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
       message: 'Student created successfully',
       data: result,
