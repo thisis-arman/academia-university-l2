@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const userNameSchema = z.object({
   firstName: z
@@ -6,7 +6,7 @@ const userNameSchema = z.object({
     .min(1)
     .max(20)
     .refine((value) => /^[A-Z]/.test(value), {
-      message: "First Name must start with a capital letter",
+      message: 'First Name must start with a capital letter',
     }),
   middleName: z.string(),
   lastName: z
@@ -14,7 +14,7 @@ const userNameSchema = z.object({
     .min(1)
     .max(20)
     .refine((value) => /^[A-Z]/.test(value), {
-      message: "Last Name must start with a capital letter",
+      message: 'Last Name must start with a capital letter',
     }),
 });
 
@@ -37,18 +37,20 @@ const localGuardianSchema = z.object({
 const studentValidationSchema = z.object({
   id: z.string(),
   name: userNameSchema,
-  gender: z.enum(["male", "female", "other"]),
+  gender: z.enum(['male', 'female', 'other']),
   dateOfBirth: z.string(),
   email: z.string().email(),
   contactNo: z.string(),
   emergencyContactNo: z.string(),
-  bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
+  bloodGroup: z.enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
   presentAddress: z.string(),
   permanentAddress: z.string(),
   guardian: guardianSchema,
   localGuardian: localGuardianSchema,
   imageURL: z.string(),
-  isActive: z.enum(["Active", "inActive"]),
+  isActive: z.enum(['Active', 'inActive']),
 });
 
-export default studentValidationSchema;
+export const studentValidations = {
+  studentValidationSchema,
+};
