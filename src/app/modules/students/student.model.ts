@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose'
-import { Guardian, TStudent, UserName } from './student.interface'
+import { Schema, model } from 'mongoose';
+import { Guardian, TStudent, UserName } from './student.interface';
 // import validator from 'validator';
 
 const userNameSchema = new Schema<UserName>({
@@ -15,7 +15,7 @@ const userNameSchema = new Schema<UserName>({
     type: 'String',
     required: true,
   },
-})
+});
 
 const guardianSchema = new Schema<Guardian>({
   fatherName: { type: 'String', required: true },
@@ -24,14 +24,9 @@ const guardianSchema = new Schema<Guardian>({
   motherName: { type: 'String' },
   motherOccupation: { type: 'String' },
   motherContactNo: { type: 'String' },
-})
+});
 
 const studentSchema = new Schema<TStudent>({
-  id: {
-    type: 'Number',
-    required: true,
-    unique: true,
-  },
   name: {
     type: userNameSchema,
     required: true,
@@ -75,6 +70,6 @@ const studentSchema = new Schema<TStudent>({
     type: 'String',
     required: false,
   },
-})
+});
 
-export const StudentModel = model<TStudent>('Student', studentSchema)
+export const StudentModel = model<TStudent>('Student', studentSchema);

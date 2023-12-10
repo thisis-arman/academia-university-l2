@@ -1,6 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { studentServices } from './student.service';
-import studentValidationSchema from './student.validation';
+// import studentValidationSchema from './student.validation';
 
 //! Notes- this is higher order function receive a async function which  resolve the response and handle the error , send the error to the global error handler
 const catchAsync = (fn: RequestHandler) => {
