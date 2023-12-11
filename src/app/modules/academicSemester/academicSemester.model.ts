@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose';
-import {
-  TAcademicSemester,
-  TMonths,
-  TSemesterCode,
-  TSemesterName,
-} from './academicSemester.interface';
+import { TAcademicSemester, TMonths } from './academicSemester.interface';
 import {
   academicSemesterCode,
   academicSemesterName,
