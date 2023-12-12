@@ -23,26 +23,26 @@ const months: TMonths[] = [
 const academicSemesterSchema = new Schema<TAcademicSemester>(
   {
     name: {
-      type: 'string',
+      type: String,
       enum: academicSemesterName,
       required: true,
     },
     code: {
-      type: 'string',
+      type: String,
       required: true,
       enum: academicSemesterCode,
     },
     year: {
-      type: Date,
+      type: String,
       required: true,
     },
     startMonth: {
-      type: 'string',
+      type: String,
       enum: months,
       required: true,
     },
     endMonth: {
-      type: 'string',
+      type: String,
       enum: months,
       required: true,
     },

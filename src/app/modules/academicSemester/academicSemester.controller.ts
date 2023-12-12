@@ -7,11 +7,12 @@ const createAcademicSemester = catchAsync(async (req, res) => {
   const result = await academicSemesterServices.CreateAcademicSemesterIntoDB(
     req.body,
   );
+  console.log({ result });
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Student is created successfully',
+    message: 'academic semester is created successfully',
     data: result,
   });
 });
