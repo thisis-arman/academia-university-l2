@@ -10,8 +10,15 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  const statusCode = 500;
+  const statusCode = 404;
   const message = err.message || 'Something went wrong!';
+
+  console.log('Error:', err);
+  console.log('Request details:', {
+    method: req.method,
+    url: req.url,
+    body: req.body,
+  });
 
   return res.status(statusCode).json({
     success: false,
