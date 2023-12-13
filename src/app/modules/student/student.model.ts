@@ -79,6 +79,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
     id: {
       type: String,
       required: [true, 'ID is required'],
+      unique: true,
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -98,7 +99,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       },
       required: [true, 'Gender is required'],
     },
-    dateOfBirth: { type: String },
+    dateOfBirth: { type: Date },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -109,7 +110,7 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: String,
       required: [true, 'Emergency contact number is required'],
     },
-    bloogGroup: {
+    bloodGroup: {
       type: String,
       enum: {
         values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
@@ -128,16 +129,19 @@ const studentSchema = new Schema<TStudent, StudentModel>(
       type: guardianSchema,
       required: [true, 'Guardian information is required'],
     },
-
     localGuardian: {
       type: localGuradianSchema,
       required: [true, 'Local guardian information is required'],
     },
+    profileImg: { type: String },
     admissionSemester: {
       type: Schema.Types.ObjectId,
       ref: 'AcademicSemester',
     },
-    profileImg: { type: String },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: {

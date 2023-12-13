@@ -4,12 +4,10 @@ import config from './app/config';
 
 async function main() {
   try {
-    await mongoose.connect(
-      'mongodb+srv://academia:academia@cluster0.kwah0lw.mongodb.net/academia?retryWrites=true&w=majority',
-    );
+    await mongoose.connect(config.database_url as string);
 
-    app.listen(5000, () => {
-      console.log(`app is listening on port ${5000}`);
+    app.listen(config.port, () => {
+      console.log(`app is listening on port ${config.port}`);
     });
   } catch (err) {
     console.log(err);

@@ -1,50 +1,36 @@
 import { Schema, model } from 'mongoose';
-import { TAcademicSemester, TMonths } from './academicSemester.interface';
 import {
-  academicSemesterCode,
-  academicSemesterName,
+  AcademicSemesterCode,
+  AcademicSemesterName,
+  Months,
 } from './academicSemester.constant';
+import { TAcademicSemseter } from './academicSemester.interface';
 
-const months: TMonths[] = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-const academicSemesterSchema = new Schema<TAcademicSemester>(
+const acdemicSemesterSchema = new Schema<TAcademicSemseter>(
   {
     name: {
       type: String,
-      enum: academicSemesterName,
       required: true,
-    },
-    code: {
-      type: String,
-      required: true,
-      enum: academicSemesterCode,
+      enum: AcademicSemesterName,
     },
     year: {
       type: String,
       required: true,
     },
+    code: {
+      type: String,
+      required: true,
+      enum: AcademicSemesterCode,
+    },
     startMonth: {
       type: String,
-      enum: months,
       required: true,
+      enum: Months,
     },
     endMonth: {
       type: String,
-      enum: months,
       required: true,
+      enum: Months,
     },
   },
   {
@@ -52,7 +38,7 @@ const academicSemesterSchema = new Schema<TAcademicSemester>(
   },
 );
 
-academicSemesterSchema.pre('save', async function (next) {
+acdemicSemesterSchema.pre('save', async function (next) {
   const isSemesterExists = await AcademicSemester.findOne({
     year: this.year,
     name: this.name,
@@ -64,9 +50,19 @@ academicSemesterSchema.pre('save', async function (next) {
   next();
 });
 
-export const AcademicSemester = model<TAcademicSemester>(
-  'academicSemester',
-  academicSemesterSchema,
+export const AcademicSemester = model<TAcademicSemseter>(
+  'AcademicSemester',
+  acdemicSemesterSchema,
 );
 
-export default academicSemesterSchema;
+// Name Year
+//2030 Autumn => Created
+// 2031 Autumn
+//2030 Autumn => XXX
+//2030 Fall => Created
+
+
+
+// Autumn 01
+// Summar 02
+// Fall 03
