@@ -1,4 +1,3 @@
-import { AcademicFaculty } from './academicFaculty.model';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
@@ -38,7 +37,19 @@ const getSingleAcademicFaculty = catchAsync(async (req, res) => {
   });
 });
 
+const updateAcademicFaculty = catchAsync(async (req, res) => {
+  const { facultyId } = req.params;
+  const result = await AcademicFacultyServices.updateAcademicFacultyIntoDB(
+    facultyId,
+    req.body,
+  );
+
+  sendResponse(res, { statusCode: httpStatus.OK, success: true, data: result });
+});
+
 export const AcademicFacultyController = {
   createAcademicFaculty,
   getSingleAcademicFaculty,
+  getAcademicFaculties,
+  updateAcademicFaculty,
 };
