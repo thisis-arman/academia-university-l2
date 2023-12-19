@@ -12,11 +12,27 @@ const getAcademicFacultiesFromDB = async () => {
 };
 
 const getSingleAcademicFacultyFromDB = async (facultyId: string) => {
-  const result = await AcademicFaculty.findOne({ facultyId });
+  const result = await AcademicFaculty.findOne({ _id: facultyId });
   return result;
 };
+
+const updateAcademicFacultyIntoDB = async (
+  facultyId: string,
+  payload: Partial<TAcademicFaculty>,
+) => {
+  const result = await AcademicFaculty.findByIdAndUpdate(
+    { _id: facultyId },
+    payload,
+    {
+      new: true,
+    },
+  );
+  return result;
+};
+
 export const AcademicFacultyServices = {
   createAcademicFacultyIntoDB,
   getAcademicFacultiesFromDB,
   getSingleAcademicFacultyFromDB,
+  updateAcademicFacultyIntoDB,
 };
