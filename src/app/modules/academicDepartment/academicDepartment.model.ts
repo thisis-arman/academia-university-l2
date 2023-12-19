@@ -18,6 +18,17 @@ const academicDepartmentSchema = new Schema<TAcademicDepartment>(
   },
 );
 
+academicDepartmentSchema.pre('save', async function (next) {
+  const isDepartmentExist = await AcademicDepartment.findOne({
+    name: this.name,
+  });
+
+  if (isDepartmentExist) {
+    throw new Error(`${this.name} already exists`);
+  }
+  next();
+});
+
 export const AcademicDepartment = model<TAcademicDepartment>(
   'AcademicDepartment',
   academicDepartmentSchema,
