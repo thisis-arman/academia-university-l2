@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import config from '../../config';
 import { TStudent } from '../student/student.interface';
 import { Student } from '../student/student.model';
@@ -21,23 +22,29 @@ const createStudentIntoDB = async (password: string, payload: TStudent) => {
     payload.admissionSemester,
   );
 
-  //set  generated id
-  userData.id = await generateStudentId(admissionSemester);
+  const session = await mongoose.startSession();
 
-  // create a user
-  const newUser = await User.create(userData);
+  try {
+    session.startTransaction();
+    //set  generated id
+    userData.id = await generateStudentId(admissionSemester);
 
-  //create a student
-  if (Object.keys(newUser).length) {
-    // set id , _id as user
-    payload.id = newUser.id;
-    payload.user = newUser._id; //reference _id
+    // create a user
+    const newUser = await User.create([userData], { session });
 
-    const newStudent = await Student.create(payload);
-    return newStudent;
+    //create a student
+    if (Object.keys(newUser).length) {
+      // set id , _id as user
+      payload.id = newUser.id;
+      payload.user = newUser._id; //reference _id
+
+      const newStudent = await Student.create(payload);
+      return newStudent;
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
-
 export const UserServices = {
   createStudentIntoDB,
 };
