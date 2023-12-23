@@ -6,8 +6,9 @@ import { StudentServices } from './student.service';
 
 const getSingleStudent = catchAsync(async (req, res) => {
   const { studentId } = req.params;
+  console.log({ studentId });
   const result = await StudentServices.getSingleStudentFromDB(studentId);
-
+  console.log({ result });
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -23,6 +24,19 @@ const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Student are retrieved succesfully',
+    data: result,
+  });
+});
+
+const updateStudent = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
+  const { student } = req.body;
+  const result = await StudentServices.updateStudentIntoDB(studentId, student);
+  console.log(student);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Student are updated succesfully',
     data: result,
   });
 });
@@ -43,4 +57,5 @@ export const StudentControllers = {
   getAllStudents,
   getSingleStudent,
   deleteStudent,
+  updateStudent,
 };

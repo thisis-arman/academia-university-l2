@@ -175,6 +175,8 @@ studentSchema.pre('aggregate', function (next) {
   next();
 });
 
+// TODO: check the student id is available on collection or not .if its not available then show a meaningful error  using pre while thrying to delete the student and user
+
 //creating a custom static method
 studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
