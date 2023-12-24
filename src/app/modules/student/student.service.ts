@@ -6,7 +6,6 @@ import { User } from '../user/user.model';
 import { TStudent } from './student.interface';
 
 const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
-  console.log(query);
   const queryObj = { ...query };
   let searchTerm = '';
   const studentSearchableFields = ['email', 'name.firstName', 'presentAddress'];
@@ -21,28 +20,20 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
     })),
   });
 
-  const excludeField = ['searchTerm', 'sort'];
+  const excludeField = ['searchTerm', 'sort', 'page', 'limit', 'fields'];
   excludeField.forEach((element) => delete queryObj[element]);
 
-  console.log(query, queryObj);
+  console.log({ query }, { queryObj });
 
-  const filterQuery = searchQuery.find(queryObj);
-
-  let sort = '-createdAt';
-
-  if (query.sort) {
-    sort = query.sort as string;
-  }
-
-  const sortQuery = filterQuery.sort(sort);
-
-  let limit = 1;
-  if (query?.limit) {
-    limit = query.limit;
-  }
-
-  const limitQuery = await sortQuery.limit(limit);
-
+  const filterQuery = searchQuery
+    .find(queryObj)
+    .populate('admissionSemester')
+    .populate({
+      path: 'academicDepartment',
+      populate: {
+        path: 'academicFaculty',
+      },
+    });
   /* 
   const result = await Student.find()
     .populate('admissionSemester')
@@ -53,7 +44,40 @@ const getAllStudentsFromDB = async (query: Record<string, unknown>) => {
       },
     }); */
 
-  return limitQuery;
+  let sort = '-createdAt';
+
+  if (query.sort) {
+    sort = query.sort as string;
+  }
+
+  const sortQuery = filterQuery.sort(sort);
+
+  let limit = 1;
+  let skip = 0;
+  let page = 0;
+
+  if (query?.limit) {
+    limit = query.limit as number;
+  }
+
+  if (query?.page) {
+    page = Number(query.page);
+    skip = (page - 1) * limit;
+  }
+
+  const paginateQuery = sortQuery.skip(skip);
+  const limitQuery = paginateQuery.limit(limit);
+
+  let fields = '-__v';
+
+  if (query.fields) {
+    fields = (query.fields as string).split(',').join(' ');
+    console.log({ fields });
+  }
+
+  const fieldQuery = await limitQuery.select(fields);
+
+  return fieldQuery;
 };
 
 const getSingleStudentFromDB = async (id: string) => {
