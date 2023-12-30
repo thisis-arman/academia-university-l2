@@ -6,33 +6,29 @@ const createAcademicFacultyIntoDB = async (payload: TAcademicFaculty) => {
   return result;
 };
 
-const getAcademicFacultiesFromDB = async () => {
-  const result = await AcademicFaculty.find({});
+const getAllAcademicFacultiesFromDB = async () => {
+  const result = await AcademicFaculty.find();
   return result;
 };
 
-const getSingleAcademicFacultyFromDB = async (facultyId: string) => {
-  const result = await AcademicFaculty.findOne({ _id: facultyId });
+const getSingleAcademicFacultyFromDB = async (id: string) => {
+  const result = await AcademicFaculty.findById(id);
   return result;
 };
 
 const updateAcademicFacultyIntoDB = async (
-  facultyId: string,
+  id: string,
   payload: Partial<TAcademicFaculty>,
 ) => {
-  const result = await AcademicFaculty.findByIdAndUpdate(
-    { _id: facultyId },
-    payload,
-    {
-      new: true,
-    },
-  );
+  const result = await AcademicFaculty.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
   return result;
 };
 
 export const AcademicFacultyServices = {
   createAcademicFacultyIntoDB,
-  getAcademicFacultiesFromDB,
+  getAllAcademicFacultiesFromDB,
   getSingleAcademicFacultyFromDB,
   updateAcademicFacultyIntoDB,
 };
